@@ -1,0 +1,13 @@
+apply_aug: None
+apply_reco: false
+lr: 0.0025
+max_epochs: 6
+num_negatives: 512
+num_queries: 256
+num_segments: 2
+optimizer: SGD
+output_dim: 256
+strong_threshold: 0.0
+temp: 0.5
+weak_threshold: 0.7
+weight_decay: 0.0005

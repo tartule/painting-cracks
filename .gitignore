@@ -1,0 +1,14 @@
+
+*.jpg
+lightning_logs/version_0/events.out.tfevents.1644870598.LAPTOP-7FI5008B.12744.0
+lightning_logs/version_0/hparams.yaml
+lightning_logs/version_1/events.out.tfevents.1644870724.LAPTOP-7FI5008B.12744.1
+lightning_logs/version_1/hparams.yaml
+lightning_logs/version_2/events.out.tfevents.1644870836.LAPTOP-7FI5008B.12744.2
+lightning_logs/version_2/hparams.yaml
+lightning_logs/version_3/events.out.tfevents.1644870958.LAPTOP-7FI5008B.12744.3
+lightning_logs/version_3/hparams.yaml
+lightning_logs/version_4/events.out.tfevents.1644871002.LAPTOP-7FI5008B.12744.4
+lightning_logs/version_4/hparams.yaml
+lightning_logs/version_5/events.out.tfevents.1644871055.LAPTOP-7FI5008B.12744.5
+lightning_logs/version_5/hparams.yaml

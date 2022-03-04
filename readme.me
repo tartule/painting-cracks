@@ -1,1 +1,67 @@
-# main
+# cracks detection
+
+
+semi-supervised
+TODO : 
+implement pytorch lightining ??
+
+transformation of the code
+-> clean the data augmentation part : 
+
+1. transformation of the model : DONE
+- for the segmentation part, the model output size should be the same as the input size : 
+ -> the interpolation step should be moved in the model part. DONE
+- however this also means that there will be 4 times more points for the reco loss. This could be a problem for computation / transforming the loss.
+-> solution : downsample the representation head & interpolate the other parameter to match the dimention of the representation head
+
+2. define a function / transformation layer for each data augmentation
+better than before, still need work to be 100% clean
+Data loading part : 
+- each transformation should be in it's own function DONE
+- the data processing for the initial layer should be express as a transform layer pass in initialisation DONE
+- the data processing part should be definable by the user (for labeled & unlabeled data)
+    -> separate the transformation for the unsupervised layer & supervised layer
+    -> pass the function with the arguments rather than separately
+
+part augmentation during training:
+- regroup all the function inside the same function
+- stop calling the function batch_transform 3 times : the basic implementation used PIL tensor to transform the data. 
+I thought thought it was cleaner to redifine the operation. The consequence of this redefinition is that the datas stay on the GPU.
+Althought this step is faster, it does not make a significative difference because the computation time for this task is very low
+
+- using the same function as the function called for data preprocessing : 
+idealy define a resize_function, pre_data_augmentation function & post_data_augmentation function, 
+the function passed to the supervised dataloading part will be a combinaison of thoses 3.
+the user will pass function such a list like : ("resize",(0.8,1.)), ("crop",(160,160))
+
+3. use lightning to make a cleaner code & more efficient
+
+-parse the arguments with the recommanded way : I did my best to parse the arguments in a clean way, but it could be better
+
+
+# Observation : 
+
+- make sure the datas are ok :
+
+    Run 1: partial labels. Bad annotation -> leads to bad localisation of the finer details.
+    Run 2: add an annotation of background near crack, finer result
+    Run 3 : add background annotation near cracks in the image
+    Run 4: add 2 images in order to have a better approximation of the performances : does not change much the prediction
+    Run 5 : don't apply reco loss : no change, even a better result than with reco loss -> don't put reco_loss
+    Run 6 : don't apply unsupervised loss (set strong threshold to 1)
+    Run 7 : apply stronger unsupervised loss (strong_threshold=0.8)
+    Run 8 : no strong thresold for unsupervised loss 
+    -> don't seems to be make a lot of difference (maybe anable it allows more generalisation) -> set parameteer to 0.9
+    Run 9 : test cutmix : more high frequency details
+    Run 10 : AdamW instead of SGD : thanks to AdamW, we are able to pick finer details, but we also detect details as cracks
+    -> we keep adamW
+    Run 11: replace cutmix with classmix : slower adancement, vanishing detetion, but at one point it was better than cutmix
+    Run 12: replace classmix with cutmix : slower learning, vanishing detection at one point -> shows that there is variabilities between runs
+    Run 13 : replace cutmix with cutout : better score for testing, but worth for the validation step
+    Run 14 : cutout with no unsupervised learning -> don't think unsupervised learning helps
+    Run 15 : cutmix with no supervised learning : 
+    Run 16!  cutmix with 0.5 unsupervised
+    Run 17 : cutmix with 0 unsupervised
+    Run 25 : with all labels
+
+# test -> very difficult to detect small cracks / 
